@@ -48,9 +48,10 @@
                 [width 500]))
  
 ; Add a text field to the dialog for login
-(define user (new text-field% [parent dialog] [label "Username:"]))
-(define pass (new text-field% [parent dialog] [label "Password: "]
-                                 [style '(password single)]))
+(define consKey (new text-field% [parent dialog] [label "Consumer Key:    "]))
+(define consSec (new text-field% [parent dialog] [label "Consumer Secret:"]))
+(define token (new text-field% [parent dialog] [label "Access Token:      "]))
+(define secToken (new text-field% [parent dialog] [label "Secret Token:       "]))
  
 ; Add a horizontal panel to the dialog, with centering for buttons
 (define panel2 (new horizontal-panel% [parent dialog]
@@ -62,13 +63,40 @@
                                         (send dialog show #f))])
 (new button% [parent panel2] [label "Ok"]
                              [callback (lambda (button event)
-                                         ( and (set! user_name (send user get-value)) (set! password (send pass get-value))
-                                               (send dialog show #f) (send user set-value "") (send pass set-value "")))])
-
-
+                                         (if (empCheck consKey consSec token secToken)
+                                             (send warning show #t)
+                                             (and  (twitter-obj (send consKey get-value) (send consSec get-value) (send token get-value) (send secToken get-value))
+                                                   (send dialog show #f) (send consKey set-value "") (send consSec set-value "") (send token set-value "") (send secToken set-value ""))))])
 
 (when (system-position-ok-before-cancel?)
   (send panel2 change-children reverse))
+
+
+;Warning for missing a key
+(define warning (instantiate dialog% ("Error")))
+
+(define warnPanel (new horizontal-panel% [parent warning]
+                                         [alignment '(center center)]))
+
+(new button% [parent warning] [label "OK"]
+                            [callback (lambda (button event)
+                                        (send warning show #f))])
+
+(new message% [parent warnPanel] [label "Missing a key!"])
+
+;FUNCTIONS
+
+(define (empCheck consKey consSec token secToken)
+  (or  (eq? "" (send consKey get-value))
+       (eq? "" (send consSec get-value))
+       (eq? "" (send token get-value))
+       (eq? "" (send secToken get-value))))
+  
+
+
+
+
+
  
 
 
