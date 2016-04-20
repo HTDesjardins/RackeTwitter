@@ -1,7 +1,8 @@
 # Project Title: RackeTwitter
 
 ### Statement
-The point of this project is to create an app for twitter in racket.  It will use a GUI and the FORGETLIBNAME library to allow the user to login to their Twitter account, tweet and retweet, and search for specific hashtags.  It will be interesting to see how racket can be used to create such an app.  
+The point of this project is to create an app for twitter in racket.  
+It will use a GUI and the oauth-single-user library created by [Stephen Charles] (https://github.com/StephenCharles/Racket-OAuth1.0a) to allow the user to enter their Consumer Key (API Key) the consumer Secret, the Access Token, and the Secret Access token to create a tweet bot that is implemented in Racket. These alpha-numeric keys/tokens provided via [Twitter's Dev Site] (https://apps.twitter.com/) when you create a twitter app.  
 
 ### Analysis
 We will be using Map, filter, and reduce to parse the data we recieve from the twitter server.  I will also be using data abstraction to protect the password. 
