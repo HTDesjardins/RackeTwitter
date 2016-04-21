@@ -1,4 +1,21 @@
 #lang racket
+;;
+;;
+;; Welcome to RackeTwitter!
+;;
+;; RackeTwitter is twitter bot created by Nicholas Finocchiaro and Harrison Desjardins
+;; This app allows a user to enter their app information provided by twitter
+;; into the following four fields and make calls to the twitter api. 
+;;
+;; Below are some test consumer keys and access tokens:
+;; consumer-key: qiq3l39bbTmhLAjFApS2XQLZD
+;; consumer-secret: KiQscXset9kwujU5gaTM5uW8qA38KJMGOhLBTekUjDUOPO65O6
+;; access-token: 286304751-1nFPR2ssNKI73MHgq6UgMbyBKAjwQOyUKY3H8FRM
+;; access-token-secret: xNnZo3r3AgxadxQU8EA7jaklfoBDCrIN7JJaKOMI1jc1O
+;; 
+;;
+;;
+
 
 (require "oauth-single-user.rkt"
   racket/gui/base)
