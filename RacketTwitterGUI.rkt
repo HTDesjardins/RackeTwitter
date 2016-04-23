@@ -13,18 +13,17 @@
 ;; access-token: 286304751-1nFPR2ssNKI73MHgq6UgMbyBKAjwQOyUKY3H8FRM
 ;; access-token-secret: xNnZo3r3AgxadxQU8EA7jaklfoBDCrIN7JJaKOMI1jc1O
 ;; 
-;;
-;;
+;; Please see the README.MD file on our github repository for instructions on how to create your 
+;; own twitter app and test out RacketTwitter for yourself. 
 
 
 (require "oauth-single-user.rkt"
   racket/gui/base)
 
-;;(define user_name '())
-;;(define password '())
-
+;; initialize twitter-oauth obj as null
 (define twitter-oauth '())
 
+;; procedure for setting the key/token values that user has entered for their account. 
 (define (twitter-obj key secret-key token secret-token)
   (set! twitter-oauth (new oauth-single-user%  
      [consumer-key key]
@@ -147,12 +146,16 @@
 (define tweetButtons (new horizontal-panel% [parent tweetScreen]
                                             [alignment '(center bottom)]))
 
-;Button bellow is not complete needs to grab string to be sent to twitter
+; Button bellow is to post a tweet to twitter checks if the tweet is empty else
+; takes the user created string, posts it to twitter and closes the window. 
 (new button% [parent tweetButtons] [label "Post"]
-                                   [callback (lambda (button event)
-                                               (if (eq? "" (send tweet get-value))
-                                                   (send warning show #t)
-                                                   "stuff"))])
+     [callback (lambda (button event)
+                 (if (eq? "" (send tweet get-value))
+                     (send warning show #t)
+                     (and (send twitter-oauth 
+                                 post-request "https://api.twitter.com/1.1/statuses/update.json" 
+                                 (list (cons 'status (send tweet get-value))))
+                     (send tweetScreen show #f))))])
 
 (new button% [parent tweetButtons] [label "Cancel"]
                                    [callback (lambda (button event)
