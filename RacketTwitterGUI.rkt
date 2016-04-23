@@ -32,7 +32,7 @@
      [access-token token]
      [access-token-secret secret-token])))
 
-
+;****************************************************************************************START WINDOW***********************************************************************************
 ;Starting frame for RackeTwitter
 (define frame (new frame% [label "RackeTwitter"]
                           [width 300]
@@ -55,7 +55,7 @@
                          (send frame show #f))])
 
 
-
+;******************************************************************************************LOGIN WINDOW*********************************************************************************
 ; Create a login window
 (define dialog (instantiate dialog% ("Login")
                 [width 500]))
@@ -78,14 +78,15 @@
                              [callback (lambda (button event)
                                          (if (empCheck consKey consSec token secToken)
                                              (send warning show #t)
-                                             (and  (twitter-obj (send consKey get-value) (send consSec get-value) (send token get-value) (send secToken get-value))
-                                                   (send dialog show #f) (send consKey set-value "") (send consSec set-value "") (send token set-value "") (send secToken set-value ""))))])
+                                             (begin  (twitter-obj (send consKey get-value) (send consSec get-value) (send token get-value) (send secToken get-value))
+                                                     (send dialog show #f) (send consKey set-value "") (send consSec set-value "") (send token set-value "") (send secToken set-value "")
+                                                     (send frame show #f) (send inter show #t))))])
 
 (when (system-position-ok-before-cancel?)
   (send panel2 change-children reverse))
 
 
-;Warning for missing a key
+;Warning for empty textfield
 (define warning (instantiate dialog% ("Error")))
 
 (define warnPanel (new horizontal-panel% [parent warning]
@@ -95,7 +96,89 @@
                             [callback (lambda (button event)
                                         (send warning show #f))])
 
-(new message% [parent warnPanel] [label "Missing a key!"])
+(new message% [parent warnPanel] [label "A textfield is blank!"])
+
+;***********************************************************************************************TWITTER INTERFACE*******************************************************************************
+
+(define inter (new frame% [label "RackeTwitter"]
+                          [width 400]
+                          [height 175]))
+
+(define search (new horizontal-panel% [parent inter]
+                                      [alignment '(center center)]
+                                      [style '(border)]))
+(define searchButtons (new horizontal-panel% [parent inter]
+                                             [alignment '(center center)]))
+
+(define buttonPanel (new horizontal-panel% [parent inter]
+                                           [alignment '(center bottom)]))
+
+(new button% [parent buttonPanel] [label "Tweet"]
+                                  [callback (lambda (button event)
+                                              (send tweetScreen show #t))])
+
+;need to talk with Nick in order to smooth out a few details before writing retweet button
+(new button% [parent buttonPanel] [label "Retweet"])
+
+(new button% [parent buttonPanel] [label "Search"]
+                                  [callback (lambda (button event)
+                                              (send searchScreen show #t))])
+
+(new button% [parent buttonPanel] [label "Log Out"]
+                                  [callback (lambda (button event)
+                                              (begin (send inter show #f) (send frame show #t)))])
+
+;Can't finish the search show until I talk with Nick
+(new message% [parent search] [label "No search results!"])
+
+(new button% [parent searchButtons] [label "Previous"])
+
+(new button% [parent searchButtons] [label "Next"])
+
+
+
+;***************************TWEET DISPLAY******************
+
+(define tweetScreen (new dialog% [label "Tweet"]
+                                 [width 300]))
+
+(define tweet (new text-field% [parent tweetScreen] [label "Tweet:"]))
+
+(define tweetButtons (new horizontal-panel% [parent tweetScreen]
+                                            [alignment '(center bottom)]))
+
+;Button bellow is not complete needs to grab string to be sent to twitter
+(new button% [parent tweetButtons] [label "Post"]
+                                   [callback (lambda (button event)
+                                               (if (eq? "" (send tweet get-value))
+                                                   (send warning show #t)
+                                                   "stuff"))])
+
+(new button% [parent tweetButtons] [label "Cancel"]
+                                   [callback (lambda (button event)
+                                               (begin (send tweet set-value "") (send tweetScreen show #f)))])
+
+;***************************SEARCH DISPLAY******************
+
+(define searchScreen (new dialog% [label "Search"]
+                                  [width 300]))
+
+(define searchText (new text-field% [parent searchScreen] [label "Search:"]))
+
+(define sButtons (new horizontal-panel% [parent searchScreen]
+                                        [alignment '(center bottom)]))
+
+;Button bellow is not complete needs to grab string to be sent to twitter
+(new button% [parent sButtons] [label "Search"]
+                                    [callback (lambda (button event)
+                                               (if (eq? "" (send searchText get-value))
+                                                   (send warning show #t)
+                                                   "stuff"))])
+
+(new button% [parent sButtons] [label "Cancel"]
+                                    [callback (lambda (button event)
+                                                (begin (send searchText set-value "") (send searchScreen show #f)))])
+                                              
 
 ;FUNCTIONS
 
