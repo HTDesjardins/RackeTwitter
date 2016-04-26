@@ -23,6 +23,27 @@
 ;; initialize twitter-oauth obj as null
 (define twitter-oauth '())
 
+(define search-results '("Hello" "World" "Ta-Da!"))
+
+(define index-of-search 0)
+
+
+
+(define (next-result list index)
+  (define (helper index counter list)
+  (if (= index counter)
+      (car list)
+      (helper index (+ counter 1) (cdr list))))
+  (send searchDisplay set-label (helper index 0 list)))
+
+(define (retweet-msg list index)
+  (define (helper index counter list)
+  (if (= index counter)
+      (car list)
+      (helper index (+ counter 1) (cdr list))))
+  (helper index 0 list))
+
+
 ;; procedure for setting the key/token values that user has entered for their account. 
 (define (twitter-obj key secret-key token secret-token)
   (set! twitter-oauth (new oauth-single-user%  
@@ -30,6 +51,8 @@
      [consumer-secret secret-key]
      [access-token token]
      [access-token-secret secret-token])))
+
+
 
 ;****************************************************************************************START WINDOW***********************************************************************************
 ;Starting frame for RackeTwitter
@@ -73,6 +96,8 @@
 (new button% [parent panel2] [label "Cancel"]
                             [callback (lambda (button event)
                                         (send dialog show #f))])
+
+;Ok button when clicked checks for any empty fields, if there are any then a warning pops up, else it creates the twitter oauth object
 (new button% [parent panel2] [label "Ok"]
                              [callback (lambda (button event)
                                          (if (empCheck consKey consSec token secToken)
@@ -117,22 +142,39 @@
                                               (send tweetScreen show #t))])
 
 ;need to talk with Nick in order to smooth out a few details before writing retweet button
-(new button% [parent buttonPanel] [label "Retweet"])
+(new button% [parent buttonPanel] [label "Retweet"]
+                                  [callback (lambda (button event)
+                                              (if (eq? '() search-results)
+                                                  (send warning show #t)
+                                                  (send twitter-oauth
+                                                        post-request "https://api.twitter.com/1.1/statuses/update.json"
+                                                        (list (cons 'status (retweet-msg search-results index-of-search))))))])
 
 (new button% [parent buttonPanel] [label "Search"]
                                   [callback (lambda (button event)
-                                              (send searchScreen show #t))])
+                                              (next-result search-results index-of-search))])
+;(send searchScreen show #t)
 
 (new button% [parent buttonPanel] [label "Log Out"]
                                   [callback (lambda (button event)
                                               (begin (send inter show #f) (send frame show #t)))])
 
 ;Can't finish the search show until I talk with Nick
-(new message% [parent search] [label "No search results!"])
+(define searchDisplay (new message% [parent search] [label "No search results!"]))
 
-(new button% [parent searchButtons] [label "Previous"])
+(new button% [parent searchButtons] [label "Previous"]
+                                    [callback (lambda (button event)
+                                                (if (or (eq? '() search-results) (= index-of-search 0))
+                                                    (send warning show #t)
+                                                    (begin (set! index-of-search (- index-of-search 1))
+                                                           (next-result search-results index-of-search))))])
 
-(new button% [parent searchButtons] [label "Next"])
+(new button% [parent searchButtons] [label "Next"]
+                                    [callback (lambda (button event)
+                                                (if (or (eq? '() search-results) (>= (+ 1 index-of-search) (length search-results)))
+                                                    (send warning show #t)
+                                                    (begin (set! index-of-search (+ index-of-search 1))
+                                                           (next-result search-results index-of-search))))])
 
 
 
@@ -152,7 +194,7 @@
      [callback (lambda (button event)
                  (if (eq? "" (send tweet get-value))
                      (send warning show #t)
-                     (and (send twitter-oauth 
+                     (begin (send twitter-oauth 
                                  post-request "https://api.twitter.com/1.1/statuses/update.json" 
                                  (list (cons 'status (send tweet get-value))))
                      (send tweetScreen show #f))))])
