@@ -27,11 +27,8 @@ A brief expectation of our results would be that user is able to post a tweet to
 brower or application. For quantitative search results we will be comparing our results of a hashtag search to that of a hashtag search
 on twitter's website. 
 
-## Architecture Diagram
+## Screencaps
 
-## Schedule
-- Nick created a Twitter application via twitter's website for authentification credentials to be used by RacketTwitter. 
-- 
 ### First Milestone (Fri Apr 15)
 The basic GUI should be set up for testing and allow the user to give their username and password.
 
