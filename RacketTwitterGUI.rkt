@@ -27,16 +27,7 @@
 
 (define index-of-search 0)
 
-
-
 (define (next-result list index)
-  (define (helper index counter list)
-  (if (= index counter)
-      (car list)
-      (helper index (+ counter 1) (cdr list))))
-  (send searchDisplay set-label (helper index 0 list)))
-
-(define (retweet-msg list index)
   (define (helper index counter list)
   (if (= index counter)
       (car list)
@@ -148,11 +139,11 @@
                                                   (send warning show #t)
                                                   (send twitter-oauth
                                                         post-request "https://api.twitter.com/1.1/statuses/update.json"
-                                                        (list (cons 'status (retweet-msg search-results index-of-search))))))])
+                                                        (list (cons 'status (next-result search-results index-of-search))))))])
 
 (new button% [parent buttonPanel] [label "Search"]
                                   [callback (lambda (button event)
-                                              (next-result search-results index-of-search))])
+                                              (send searchDisplay set-label (next-result search-results index-of-search)))])
 ;(send searchScreen show #t)
 
 (new button% [parent buttonPanel] [label "Log Out"]
@@ -167,14 +158,14 @@
                                                 (if (or (eq? '() search-results) (= index-of-search 0))
                                                     (send warning show #t)
                                                     (begin (set! index-of-search (- index-of-search 1))
-                                                           (next-result search-results index-of-search))))])
+                                                           (send searchDisplay set-label (next-result search-results index-of-search)))))])
 
 (new button% [parent searchButtons] [label "Next"]
                                     [callback (lambda (button event)
                                                 (if (or (eq? '() search-results) (>= (+ 1 index-of-search) (length search-results)))
                                                     (send warning show #t)
                                                     (begin (set! index-of-search (+ index-of-search 1))
-                                                           (next-result search-results index-of-search))))])
+                                                           (send searchDisplay set-label (next-result search-results index-of-search)))))])
 
 
 
