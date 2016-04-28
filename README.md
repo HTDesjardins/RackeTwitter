@@ -5,44 +5,54 @@
 
 [Harrison Desjardins](https://github.com/HTDesjardins)
 
-### About
+### Overview
 RackeTwitter is a small Twitter bot created in Racket. 
-It uses a simple GUI and the oauth-single-user library created by [Stephen Charles] (https://github.com/StephenCharles/Racket-OAuth1.0a) to allow the user to enter their Consumer Key (API Key) the consumer Secret, the Access Token, and the Secret Access token to create a tweet bot that is implemented in Racket. These alpha-numeric keys/tokens provided via [Twitter's Dev Site] (https://apps.twitter.com/) when you create a twitter app.  
+It uses a simple GUI and the to allow the user to enter their Consumer Key (API Key) the consumer Secret, the Access Token, and the Secret Access token to create a tweet bot that is implemented in Racket. These alpha-numeric keys/tokens provided via [Twitter's Dev Site] (https://apps.twitter.com/) when you create a twitter app.  
 
-### Data set or other source materials
-If you will be working with existing data, where will you get those data from? (Dowload it from a website? access it in a database? create it in a simulation you will build....)
+##Screenshot
+Run RackeTwitter from DrRacket. The Window below will pop up:
 
-How will you convert that data into a form usable for your project?  
+<img src="https://github.com/oplS16projects/RackeTwitter/blob/master/loginscreen.png" width="300">
 
-Do your homework here: if you are pulling data from somewhere, actually go download it and look at it. Explain in some detail what your plan is for accomplishing the necessary processing.
+Proceed to The Login Screen:
 
-If you are using some other starting materails, explain what they are. Basically: anything you plan to use that isn't code.
+<img src="https://github.com/oplS16projects/RackeTwitter/blob/master/keytokenlogin.png" width="400">
 
-### Deliverable and Demonstration
-By the end of this project we want to be able to demo an app that allows the user to connect to their twitter acount, look up specific hashtags, and tweet/retweet.  For the live demo we could log into an acount and tweet something.  We can then prove it worked by showing the tweet on the twitter website.
+After a successful login the user will recieve this window:
 
-### Evaluation of Results
-How will you know if you are successful? 
-A brief expectation of our results would be that user is able to post a tweet to their account and then go and view that tweet on another
-brower or application. For quantitative search results we will be comparing our results of a hashtag search to that of a hashtag search
-on twitter's website. 
+<img src="https://github.com/oplS16projects/RackeTwitter/blob/master/homescreen.png" width="400">
 
-## Screencaps
+##Concepts Demonstrated
+Identify the OPL concepts demonstrated in your project. Be brief. A simple list and example is sufficient. 
+* **Data abstraction** is used to provide access to the elements of the RSS feed.
+* The objects in the OpenGL world are represented with **recursive data structures.**
+* **Symbolic language processing techniques** are used in the parser.
 
-### First Milestone (Fri Apr 15)
-The basic GUI should be set up for testing and allow the user to give their username and password.
+##External Technology and Libraries
+We used the [Racket Gui library] (https://docs.racket-lang.org/gui/) to wrap the oauth-single-user library created by [Stephen Charles] (https://github.com/StephenCharles/Racket-OAuth1.0a). 
 
-### Second Milestone (Fri Apr 22)
-The GUI will allow the user to login to twitter and make a basic post. We have decided not to hide keys and tokens from the user because they are fairly long and more than likely the user will be copying and pasting them in from another source. 
+##Favorite Scheme Expressions
+####Mark (a team member)
+Each team member should identify a favorite expression or procedure, written by them, and explain what it does. Why is it your favorite? What OPL philosophy does it embody?
+Remember code looks something like this:
+```scheme
+(map (lambda (x) (foldr compose functions)) data)
+```
+####Lillian (another team member)
+This expression reads in a regular expression and elegantly matches it against a pre-existing hashmap....
+```scheme
+(let* ((expr (convert-to-regexp (read-line my-in-port)))
+             (matches (flatten
+                       (hash-map *words*
+                                 (lambda (key value)
+                                   (if (regexp-match expr key) key '()))))))
+  matches)
+```
 
-### Final Presentation (last week of semester)
-By this time the GUI should be cleaned up and should allow the user to search for specific hashtags and retweet.
+#How to Download and Run
+You may want to link to your latest release for easy downloading by people (such as Mark).
 
-## Group Responsibilities
-Here each group member gets a section where they, as an individual, detail what they are responsible for in this project. Each group member writes their own Responsibility section. Include the milestones and final deliverable.
-
-### Harrison Desjardins @HTDesjardins
-I will be working on the GUI portion of the project.  I hope by the first milestone to have a basic gui with a login screen that will take a username and password.  By the second milestone I want to have the gui allowing the user to login with their password being hidden when typed and I would like the user to be able to post tweets.  By the final milestone I would like to have the gui set up for the search and retweet functions.  I would also want to clean it up and make it look nice by this point.
-
-### Nick Finocchiaro @nickfinocchiaro
-Nick will be working on the backend of the project. This includes working with the OAuth Racket library as well as creating a new twitter app to obtain the access tokens needed to communicate with the database. This library allows us to securely connect to twitter and query the data base for tweets as well as post them. For the first milestone, I hope to have a working login screen that will acceptthe user's account name and password and successfully log them in. Second milestone will be that the user is able to post a tweet. The Final milestone is that the user can seach a hashtag and have the results returned to the gui. Twitter will return all query's in JSON format so I will also need to be implementing a JSON parser to make the ouput readable for the common user. 
+1. After downloading the release unpack the zip into any directory. 
+2. Open the file RackeTwitterGUI.rkt in DrRacket
+3. Run the file with the play button. 
+4. See Screenshots for using the GUI. 
