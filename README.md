@@ -41,22 +41,22 @@ We used the [Racket Gui library] (https://docs.racket-lang.org/gui/) to wrap the
                                                     (begin (set! index-of-search (+ index-of-search 1))
                                                            (send searchDisplay set-label (next-result search-results index-of-search)))))])
 ```
-This is my favorite procedure within the code.  It is my favorite because even though it looks kind of complex, it is actually a really straight foreword procedure.  The code allows the user to change the displayed search result to the the next result.  This procedure even has error checking, which can be seen by the the if statement.  By checking to make sure the index is not larger than the number of elements in the list, we know it can never over step.  Another thing that I like about this code is the fact it uses lambda to create a procedure that runs when the button is clicked.
+This is my favorite procedure within the code.  It is my favorite because even though it looks kind of complex, it is actually a really straight forward procedure.  The code allows the user to change the displayed search result to the the next result.  This procedure even has error checking, which can be seen by the the if statement.  By checking to make sure the index is not larger than the number of elements in the list, we know it can never over step.  Another thing that I like about this code is the fact it uses lambda to create a procedure that runs when the button is clicked.
 
-####Lillian (another team member)
-Each team member should identify a favorite expression or procedure, written by them, and explain what it does. Why is it your favorite? What OPL philosophy does it embody?
-This expression reads in a regular expression and elegantly matches it against a pre-existing hashmap....
+####Nick
 ```scheme
-(let* ((expr (convert-to-regexp (read-line my-in-port)))
-             (matches (flatten
-                       (hash-map *words*
-                                 (lambda (key value)
-                                   (if (regexp-match expr key) key '()))))))
-  matches)
+(new button% [parent tweetButtons] [label "Post"]
+     [callback (lambda (button event)
+                 (if (eq? "" (send tweet get-value))
+                     (send warning show #t)
+                     (begin (send twitter-oauth 
+                                 post-request "https://api.twitter.com/1.1/statuses/update.json" 
+                                 (list (cons 'status (send tweet get-value))))
+                     (send tweetScreen show #f))))])
 ```
+This was my favorite procedure just because it took a lot of trial and error to actually make sure that we were properly connecting to twitter after entering the Keys/Tokens. The procedure above creates a new button labeled "post" in the tweet screen. If nothing is entered then the screen throws an error message.
 
 #How to Download and Run
-You may want to link to your latest release for easy downloading by people (such as Mark).
 
 1. After downloading the release unpack the zip into any directory. 
 2. Open the file RackeTwitterGUI.rkt in DrRacket
