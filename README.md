@@ -32,13 +32,19 @@ Identify the OPL concepts demonstrated in your project. Be brief. A simple list 
 We used the [Racket Gui library] (https://docs.racket-lang.org/gui/) to wrap the oauth-single-user library created by [Stephen Charles] (https://github.com/StephenCharles/Racket-OAuth1.0a). 
 
 ##Favorite Scheme Expressions
-####Mark (a team member)
-Each team member should identify a favorite expression or procedure, written by them, and explain what it does. Why is it your favorite? What OPL philosophy does it embody?
-Remember code looks something like this:
+####Harrison
 ```scheme
-(map (lambda (x) (foldr compose functions)) data)
+(new button% [parent searchButtons] [label "Next"]
+                                    [callback (lambda (button event)
+                                                (if (or (eq? '() search-results) (>= (+ 1 index-of-search) (length search-results)))
+                                                    (send warning show #t)
+                                                    (begin (set! index-of-search (+ index-of-search 1))
+                                                           (send searchDisplay set-label (next-result search-results index-of-search)))))])
 ```
+This is my favorite procedure within the code.  It is my favorite because even though it looks kind of complex, it is actually a really straight foreword procedure.  The code allows the user to change the displayed search result to the the next result.  This procedure even has error checking, which can be seen by the the if statement.  By checking to make sure the index is not larger than the number of elements in the list, we know it can never over step.  Another thing that I like about this code is the fact it uses lambda to create a procedure that runs when the button is clicked.
+
 ####Lillian (another team member)
+Each team member should identify a favorite expression or procedure, written by them, and explain what it does. Why is it your favorite? What OPL philosophy does it embody?
 This expression reads in a regular expression and elegantly matches it against a pre-existing hashmap....
 ```scheme
 (let* ((expr (convert-to-regexp (read-line my-in-port)))
