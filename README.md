@@ -28,9 +28,8 @@ Selecting tweet will bring up this window...enter some text and hit tweet!
 
 ##Concepts Demonstrated
 Identify the OPL concepts demonstrated in your project. Be brief. A simple list and example is sufficient. 
-* **Data abstraction** is used to provide access to the elements of the RSS feed.
-* The objects in the OpenGL world are represented with **recursive data structures.**
-* **Symbolic language processing techniques** are used in the parser.
+* **OOP with message passing** used to recieve key/tokens for login from the user and set the variables in the class.
+* Creating and manipulating lists from user input **CARs and CDRs**.
 
 ##External Technology and Libraries
 We used the [Racket Gui library] (https://docs.racket-lang.org/gui/) to wrap the oauth-single-user library created by [Stephen Charles] (https://github.com/StephenCharles/Racket-OAuth1.0a). 
