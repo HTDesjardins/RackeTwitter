@@ -27,6 +27,12 @@
 
 (define index-of-search 0)
 
+;; procedure to import twitter logo
+(define twitter-image (read-bitmap "twitter.png"))
+
+;; procedure to import racket logo
+(define racket-image (read-bitmap "racket.png"))
+
 (define (next-result list index)
   (define (helper index counter list)
   (if (= index counter)
@@ -48,8 +54,13 @@
 ;****************************************************************************************START WINDOW***********************************************************************************
 ;Starting frame for RackeTwitter
 (define frame (new frame% [label "RackeTwitter"]
-                          [width 300]
-                          [height 300]))
+                          [width 400]
+                          [height 400]))
+
+;Bring up the twitter logo on the login screen 
+(new message% [parent frame] [label twitter-image])
+
+(new message% [parent frame] [label racket-image])
 
 (define panel1 (new horizontal-panel% [parent frame]
                                       [alignment '(center bottom)]))
