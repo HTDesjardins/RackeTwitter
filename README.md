@@ -22,6 +22,10 @@ After a successful login the user will recieve this window:
 
 <img src="https://github.com/oplS16projects/RackeTwitter/blob/master/homescreen.png" width="400">
 
+Selecting tweet will bring up this window...enter some text and hit tweet!
+
+<img src="https://github.com/oplS16projects/RackeTwitter/blob/master/tweet.png" width="400">
+
 ##Concepts Demonstrated
 Identify the OPL concepts demonstrated in your project. Be brief. A simple list and example is sufficient. 
 * **Data abstraction** is used to provide access to the elements of the RSS feed.
@@ -54,7 +58,15 @@ This is my favorite procedure within the code.  It is my favorite because even t
                                  (list (cons 'status (send tweet get-value))))
                      (send tweetScreen show #f))))])
 ```
-This was my favorite procedure just because it took a lot of trial and error to actually make sure that we were properly connecting to twitter after entering the Keys/Tokens. The procedure above creates a new button labeled "post" in the tweet screen. If nothing is entered then the screen throws an error message.
+This was my favorite procedure just because it took a lot of trial and error to actually make sure that we were properly connecting to twitter after entering the Keys/Tokens. The procedure above creates a new button labeled "post" in the tweet screen. If nothing is entered then the screen throws an error message. When the user enters text to post we utilize the post-request built in from the Oauth-Lib. This takes two parameters which are the end-point of the invocation:
+```scheme
+post-request "https://api.twitter.com/1.1/statuses/update.json" 
+```
+
+and a list of charachters which are the message itself:
+```scheme
+(list (cons 'status (send tweet get-value))) 
+```
 
 #How to Download and Run
 
